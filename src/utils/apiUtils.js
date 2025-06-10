@@ -2,21 +2,24 @@
  * API utility functions
  */
 
-import { API_URL } from '@/api/config';
-import { isStaticExport } from '@/utils/staticConfig';
+import { API_URL } from "@/api/config";
+import { isStaticExport } from "@/utils/staticConfig";
 
 // Flag to check if we're on client side
-const isClient = typeof window !== 'undefined';
+const isClient = typeof window !== "undefined";
 
 // Flag to check if we're running in local development
-const isLocalDev = isClient && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+const isLocalDev =
+  isClient &&
+  (window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1");
 
 // Flag to check if we're in production mode
-const isProduction = process.env.NODE_ENV === 'production';
+const isProduction = process.env.NODE_ENV === "production";
 
 // Simplified logging function
 const logDebug = (message, data) => {
-  if (isClient && process.env.NODE_ENV !== 'production') {
+  if (isClient && process.env.NODE_ENV !== "production") {
     console.log(message, data);
   }
 };
@@ -29,14 +32,14 @@ export const getAuthToken = () => {
   if (!isClient) {
     return null;
   }
-  
-  const token = localStorage.getItem('authToken');
-  const tokenType = localStorage.getItem('tokenType') || 'bearer';
-  
+
+  const token = localStorage.getItem("authToken");
+  const tokenType = localStorage.getItem("tokenType") || "bearer";
+
   if (!token) {
     return null;
   }
-  
+
   // Return raw token without type
   return token;
 };
@@ -48,19 +51,23 @@ export const getAuthToken = () => {
  */
 export const getAuthHeaders = () => {
   if (!isClient) {
-    return { 'Content-Type': 'application/json' };
+    return { "Content-Type": "application/json" };
   }
-  
-  const token = localStorage.getItem('authToken');
-  const tokenType = localStorage.getItem('tokenType') || 'bearer';
-  
+
+  const token = localStorage.getItem("authToken");
+  const tokenType = localStorage.getItem("tokenType") || "bearer";
+
   if (!token) {
-    return { 'Content-Type': 'application/json' };
+    console.warn("No authentication token found");
+    return { "Content-Type": "application/json" };
   }
-  
+
+  // Ensure token is properly formatted
+  const formattedToken = token.trim();
+
   return {
-    'Content-Type': 'application/json',
-    'Authorization': `${tokenType} ${token}`
+    "Content-Type": "application/json",
+    Authorization: `${tokenType} ${formattedToken}`,
   };
 };
 
@@ -72,14 +79,14 @@ export const getAuthHeader = () => {
   if (!isClient) {
     return null;
   }
-  
-  const token = localStorage.getItem('authToken');
-  const tokenType = localStorage.getItem('tokenType') || 'bearer';
-  
+
+  const token = localStorage.getItem("authToken");
+  const tokenType = localStorage.getItem("tokenType") || "bearer";
+
   if (!token) {
     return null;
   }
-  
+
   return `${tokenType} ${token}`;
 };
 
@@ -90,19 +97,19 @@ export const getAuthHeader = () => {
  */
 export const addAuthToOptions = (options = {}) => {
   const token = getAuthToken();
-  
+
   if (!token) {
     return options;
   }
-  
+
   // Create headers if they don't exist
   if (!options.headers) {
     options.headers = {};
   }
-  
+
   // Add authorization header
-  options.headers['Authorization'] = token;
-  
+  options.headers["Authorization"] = token;
+
   return options;
 };
 
@@ -116,95 +123,122 @@ export const addAuthToOptions = (options = {}) => {
  * @param {boolean} options.useFormData - Whether to use FormData
  * @returns {Promise<Object>} Response data
  */
-export const makeApiRequest = async ({ 
-  endpoint, 
-  method = 'GET', 
-  data = null, 
-  headers = {}, 
-  useFormData = false 
+export const makeApiRequest = async ({
+  endpoint,
+  method = "GET",
+  data = null,
+  headers = {},
+  useFormData = false,
 }) => {
   try {
     // Log API call
     logDebug(`API Request: ${method} ${endpoint}`, data);
-    
+
     // Get auth headers and merge with provided headers
     const authHeaders = getAuthHeaders();
     const requestHeaders = { ...authHeaders, ...headers };
-    
+
     // Prepare the request options
     const requestOptions = {
       method,
-      headers: requestHeaders
+      headers: requestHeaders,
     };
-    
+
     // Add body for non-GET requests
-    if (method !== 'GET' && data) {
+    if (method !== "GET" && data) {
       if (useFormData) {
         // For FormData, remove Content-Type to let the browser set it
-        delete requestOptions.headers['Content-Type'];
+        delete requestOptions.headers["Content-Type"];
         requestOptions.body = data;
+
+        // Debug log FormData contents
+        console.log("FormData being sent:", {
+          user_id: data.get("user_id"),
+          app_source: data.get("app_source"),
+        });
       } else {
         requestOptions.body = JSON.stringify(data);
+        // Debug log JSON data
+        console.log("JSON data being sent:", data);
       }
     }
-    
+
     let response;
-    
+
     // For local development and not in production, use the proxy server
     if (isLocalDev && !isProduction && !isStaticExport) {
       // Proxy API request via /api/proxy endpoint
       logDebug(`Using local proxy for API request: ${endpoint}`);
-      
+
+      // Convert FormData to object if needed
+      let requestData = data;
+      if (data instanceof FormData) {
+        requestData = {};
+        data.forEach((value, key) => {
+          requestData[key] = value;
+        });
+      }
+
       const proxyOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           endpoint,
           method,
-          data,
-          headers: authHeaders
-        })
+          data: requestData,
+          headers: authHeaders,
+          useFormData: useFormData,
+        }),
       };
-      
-      response = await fetch('/api/proxy', proxyOptions);
+
+      // Debug log proxy request
+      console.log("Proxy request options:", {
+        endpoint,
+        method,
+        data: requestData,
+        headers: authHeaders,
+        useFormData,
+      });
+
+      response = await fetch("/api/proxy", proxyOptions);
     } else {
       // Direct API call
       // Build the URL
       const directUrl = `${API_URL}${endpoint}`;
       logDebug(`Direct API call to: ${directUrl}`);
-      
+
       // For GET requests with query params
-      if (method === 'GET' && data && Object.keys(data).length > 0) {
+      if (method === "GET" && data && Object.keys(data).length > 0) {
         const queryParams = new URLSearchParams(data).toString();
         const urlWithParams = `${directUrl}?${queryParams}`;
-        
+
         response = await fetch(urlWithParams, requestOptions);
       } else {
         response = await fetch(directUrl, requestOptions);
       }
     }
-    
+
     // Parse the response
     let result;
     try {
       result = await response.json();
     } catch (e) {
-      console.error('Failed to parse response as JSON:', e);
-      throw new Error('Error processing API response');
+      console.error("Failed to parse response as JSON:", e);
+      throw new Error("Error processing API response");
     }
-    
+
     // Log API response
     logDebug(`API Response for ${endpoint}:`, result);
-    
+
     if (!response.ok) {
-      console.error('API error response:', result);
-      throw new Error(result.message || result.detail || 'API request failed');
+      console.error("API error response:", result);
+      throw new Error(result.message || result.detail || "API request failed");
     }
-    
+
     return result;
   } catch (error) {
     // Special handling for network errors
-    if (error.message === 'Failed to fetch') {
+    if (error.message === "Failed to fetch") {
       if (isLocalDev) {
         console.error(`
           PROXY ERROR: Unable to connect to the local proxy server
@@ -227,8 +261,8 @@ export const makeApiRequest = async ({
         `);
       }
     }
-    
+
     console.error(`API request failed for ${endpoint}:`, error);
     throw error;
   }
-}; 
+};

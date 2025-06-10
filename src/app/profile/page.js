@@ -1,20 +1,21 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { 
-  FiUser, 
-  FiMail, 
-  FiPhone, 
-  FiShield, 
-  FiCalendar, 
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import {
+  FiUser,
+  FiMail,
+  FiPhone,
+  FiShield,
+  FiCalendar,
   FiAlertCircle,
-  FiArrowLeft
-} from 'react-icons/fi';
-import Link from 'next/link';
-import { isAuthenticated } from '@/utils/auth';
-import tokenService from '@/services/tokenService';
-import { toast } from 'react-hot-toast';
+  FiArrowLeft,
+} from "react-icons/fi";
+import Link from "next/link";
+import { isAuthenticated } from "@/utils/auth";
+import tokenService from "@/services/tokenService";
+import { toast } from "react-hot-toast";
+import Breadcrumb from "@/components/Breadcrumb"; // <-- Added Breadcrumb import
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -24,8 +25,8 @@ export default function ProfilePage() {
 
   useEffect(() => {
     if (!isAuthenticated()) {
-      toast.error('Please log in to access this page');
-      router.push('/auth/login');
+      toast.error("Please log in to access this page");
+      router.push("/auth/login");
       return;
     }
 
@@ -34,36 +35,41 @@ export default function ProfilePage() {
     if (storedUserData) {
       setUserData(storedUserData);
     } else {
-      setError('Could not retrieve user profile data');
+      setError("Could not retrieve user profile data");
     }
     setLoading(false);
   }, [router]);
 
   // Function to format date
   const formatDate = (dateString) => {
-    if (!dateString) return 'N/A';
-    
+    if (!dateString) return "-";
+
     // Check if the date is already formatted (e.g. "16 May 2025")
-    if (dateString.includes(' ')) return dateString;
-    
+    if (dateString.includes(" ")) return dateString;
+
     try {
-      const options = { year: 'numeric', month: 'short', day: 'numeric' };
-      return new Date(dateString).toLocaleDateString('en-US', options);
+      const options = { year: "numeric", month: "short", day: "numeric" };
+      return new Date(dateString).toLocaleDateString("en-US", options);
     } catch (error) {
-      console.error('Error formatting date:', error);
+      console.error("Error formatting date:", error);
       return dateString;
     }
   };
 
   return (
-    <div className="p-6 max-w-7xl mx-auto bg-gray-100">
-      {/* Page header */}
-      <div className="mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between">
-        <div>
+    <div className="p-1 max-w-7xl mx-auto bg-gray-100">
+      {/* Reduce margin below breadcrumb */}
+      <div className="mb-0">
+        <Breadcrumb />
+      </div>
+
+      {/* Remove margin-bottom from header since it's empty */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between  -mt-5">
+        {/* <div>
           <h1 className="text-2xl font-bold text-gray-800">My Profile</h1>
           <p className="mt-1 text-sm text-gray-600">View your account information</p>
-        </div>
-        <div className="mt-4 sm:mt-0">
+        </div> */}
+        {/* <div className="mt-4 sm:mt-0">
           <Link
             href="/dashboard"
             className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors duration-200"
@@ -71,10 +77,10 @@ export default function ProfilePage() {
             <FiArrowLeft className="mr-2 h-4 w-4" />
             Back to Dashboard
           </Link>
-        </div>
+        </div> */}
       </div>
-      
-      {/* Error message */}
+
+      {/* Error message - keep mb-6 for proper spacing when error shows */}
       {error && (
         <div className="bg-red-50 border border-red-200 text-red-700 px-6 py-4 rounded-lg flex items-start mb-6">
           <FiAlertCircle className="mr-3 mt-0.5 flex-shrink-0" size={24} />
@@ -87,11 +93,11 @@ export default function ProfilePage() {
 
       {/* Profile card */}
       <div className="bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200">
-        <div className="px-6 py-5 border-b border-gray-200 bg-gray-900 text-white">
+        {/* <div className="px-6 py-5 border-b border-gray-200 bg-gray-900 text-white">
           <h3 className="text-lg font-medium">Account Information</h3>
           <p className="mt-1 text-sm text-gray-300">Your personal details</p>
-        </div>
-        
+        </div> */}
+
         <div className="p-6">
           {loading ? (
             <div className="animate-pulse space-y-6">
@@ -104,7 +110,7 @@ export default function ProfilePage() {
                   <div className="h-4 bg-gray-200 rounded w-2/3"></div>
                 </div>
               </div>
-              
+
               <div className="space-y-4">
                 <div className="h-4 bg-gray-200 rounded w-full"></div>
                 <div className="h-4 bg-gray-200 rounded w-full"></div>
@@ -115,7 +121,7 @@ export default function ProfilePage() {
           ) : userData ? (
             <div className="space-y-8">
               {/* Profile header */}
-              <div className="flex flex-col md:flex-row md:space-x-6">
+              {/* <div className="flex flex-col md:flex-row md:space-x-6">
                 <div className="mb-6 md:mb-0">
                   <div className="w-32 h-32 md:w-48 md:h-48 rounded-full bg-gray-200 flex items-center justify-center mx-auto">
                     <FiUser className="w-16 h-16 md:w-24 md:h-24 text-gray-500" />
@@ -137,11 +143,13 @@ export default function ProfilePage() {
                     Your account has administrator privileges, giving you full access to manage the entire system.
                   </p>
                 </div>
-              </div>
-              
+              </div> */}
+
               {/* Profile details */}
-              <div className="border-t border-gray-200 pt-6">
-                <h3 className="text-lg font-medium mb-4 text-gray-900">Contact Information</h3>
+              <div className=" border-gray-200 pt-6 text-[12px]">
+                <h3 className="font-medium mb-4 text-gray-900">
+                  Contact Information
+                </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-8">
                   <div className="flex items-start">
                     <div className="mr-3 mt-1">
@@ -150,11 +158,15 @@ export default function ProfilePage() {
                       </div>
                     </div>
                     <div>
-                      <div className="text-sm font-medium text-gray-900 mb-1">Email Address</div>
-                      <div className="text-gray-700">{userData.email || 'N/A'}</div>
+                      <div className="font-medium text-gray-900 mb-1">
+                        Email Address
+                      </div>
+                      <div className="text-gray-700">
+                        {userData.email || "-"}
+                      </div>
                     </div>
                   </div>
-                  
+
                   <div className="flex items-start">
                     <div className="mr-3 mt-1">
                       <div className="p-2 bg-gray-100 rounded-full">
@@ -162,11 +174,15 @@ export default function ProfilePage() {
                       </div>
                     </div>
                     <div>
-                      <div className="text-sm font-medium text-gray-900 mb-1">Mobile Number</div>
-                      <div className="text-gray-700">{userData.mobile || 'N/A'}</div>
+                      <div className="font-medium text-gray-900 mb-1">
+                        Mobile Number
+                      </div>
+                      <div className="text-gray-700">
+                        {userData.mobile || "-"}
+                      </div>
                     </div>
                   </div>
-                  
+
                   <div className="flex items-start">
                     <div className="mr-3 mt-1">
                       <div className="p-2 bg-gray-100 rounded-full">
@@ -174,20 +190,22 @@ export default function ProfilePage() {
                       </div>
                     </div>
                     <div>
-                      <div className="text-sm font-medium text-gray-900 mb-1">Role</div>
-                      <div className="text-gray-700 capitalize">{userData.role || 'N/A'}</div>
+                      <div className="font-medium text-gray-900 mb-1">Role</div>
+                      <div className="text-gray-700 capitalize">
+                        {userData.role || "-"}
+                      </div>
                     </div>
                   </div>
-                  
+
                   {/* <div className="flex items-start">
                     <div className="mr-3 mt-1">
                       <div className="p-2 bg-gray-100 rounded-full">
                         <FiCalendar className="h-5 w-5 text-gray-500" />
                       </div>
                     </div> */}
-                    {/* <div>
+                  {/* <div>
                       <div className="text-sm font-medium text-gray-900 mb-1">Session Expires</div>
-                      <div className="text-gray-700">{formatDate(userData.expires_at) || 'N/A'}</div>
+                      <div className="text-gray-700">{formatDate(userData.expires_at) || '-'}</div>
                     </div> */}
                   {/* </div> */}
                 </div>
@@ -196,12 +214,16 @@ export default function ProfilePage() {
           ) : (
             <div className="text-center py-8">
               <FiUser size={48} className="mx-auto text-gray-400 mb-4" />
-              <h3 className="text-lg font-medium text-gray-900">No profile data available</h3>
-              <p className="mt-1 text-sm text-gray-500">Please try logging in again</p>
+              <h3 className="text-lg font-medium text-gray-900">
+                No profile data available
+              </h3>
+              <p className="mt-1 text-sm text-gray-500">
+                Please try logging in again
+              </p>
             </div>
           )}
         </div>
       </div>
     </div>
   );
-} 
+}

@@ -1,3 +1,4 @@
+
 /**
  * Template service for handling QR template-related API calls
  */
