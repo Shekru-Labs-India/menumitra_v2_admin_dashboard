@@ -56,16 +56,12 @@ const ownerService = {
   // Update owner
   updateOwner: async (data) => {
     try {
-      // Ensure user_id is included in the request
-      const requestData = {
-        ...data,
-        user_id: parseInt(localStorage.getItem("userId") || "0"),
-      };
-
+      // Do not override the user_id from the data parameter
+      // as it should be the owner's user_id, not the admin's
       return await makeApiRequest({
         endpoint: `/admin/update_owner`,
         method: "PATCH",
-        data: requestData,
+        data: data,  // Use the data as provided
       });
     } catch (error) {
       console.error("Error updating owner:", error);

@@ -96,12 +96,25 @@ export default function EditOwnerPage({ params }) {
     setSubmitting(true);
 
     try {
-      const userData = tokenService.getUserData();
-      const userId = userData?.id || 1;
+      // Get the admin's ID from token service
+      const adminData = tokenService.getUserData();
+      const adminId = adminData?.id;
+
+      // If no admin ID is found, handle the error
+      if (!adminId) {
+        throw new Error('Admin ID not found. Please login again.');
+      }
+
+      // Get the owner details first to ensure we have the correct user_id
+      const ownerDetails = await ownerService.viewOwner(ownerId);
+      
+      if (!ownerDetails || !ownerDetails.user_id) {
+        throw new Error('Owner details not found');
+      }
 
       const updateData = {
-        update_user_id: userId,
-        user_id: parseInt(ownerId),
+        update_user_id: adminId, // Admin who is making the update
+        user_id: ownerDetails.user_id, // Use the actual owner's user_id from the API
         ...formData,
       };
 
