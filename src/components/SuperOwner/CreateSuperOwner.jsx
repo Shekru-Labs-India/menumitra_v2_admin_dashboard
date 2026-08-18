@@ -53,7 +53,7 @@ function CreateSuperOwner() {
       }
 
       const response = await axios.post(
-        "https://ghanish.in/v2/admin/get_outlets_for_super_owner",
+        "https://menu4.xyz/v2/admin/get_outlets_for_super_owner",
         {
           app_source: "admin_app",
         },
@@ -189,7 +189,7 @@ function CreateSuperOwner() {
     try {
       const token = getToken();
       const response = await axios.post(
-        "https://ghanish.in/v2/admin/create_super_owner",
+        "https://menu4.xyz/v2/admin/create_super_owner",
         {
           ...superOwnerDetails,
           outlet_ids: selectedOutlets,

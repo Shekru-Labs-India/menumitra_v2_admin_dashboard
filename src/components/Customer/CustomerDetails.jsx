@@ -64,7 +64,7 @@ function CustomerDetails() {
     setLoading(true);
     try {
       await axios.delete(
-        'https://ghanish.in/v2/admin/customer_delete',
+        'https://menu4.xyz/v2/admin/customer_delete',
         {
           headers: {
             Authorization: getToken(),

@@ -53,7 +53,7 @@ function ManageMenus() {
     queryFn: async () => {
       const token = getToken();
       const response = await axios.post(
-        "https://ghanish.in/v2/common/menu_list",
+        "https://menu4.xyz/v2/common/menu_list",
         {
           outlet_id: outletId,
           user_id: adminData?.user_id,
@@ -75,7 +75,7 @@ function ManageMenus() {
   const deleteMutation = useMutation({
     mutationFn: async () => {
       const token = getToken();
-      return axios.delete("https://ghanish.in/v2/common/menu_delete", {
+      return axios.delete("https://menu4.xyz/v2/common/menu_delete", {
         data: {
           outlet_id: Number(outletId),
           user_id: adminData?.user_id,
@@ -110,7 +110,7 @@ function ManageMenus() {
         .map((menu) => menu.menu_id);
 
       return axios.post(
-        "https://ghanish.in/v2/common/bulk_menu_action",
+        "https://menu4.xyz/v2/common/bulk_menu_action",
         {
           user_id: adminData?.user_id,
           outlet_id: Number(outletId),

@@ -58,7 +58,7 @@ const EnquiryList = () => {
       }
 
       const response = await axios.post(
-        "https://ghanish.in/v2/common/list_enquiries",
+        "https://menu4.xyz/v2/common/list_enquiries",
         requestBody,
         {
           headers: {

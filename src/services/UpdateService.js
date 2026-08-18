@@ -8,7 +8,7 @@ export class UpdateService {
   static async checkForUpdates() {
     try {
       const response = await axios.post(
-        "https://men4u.xyz/v2/common/check_version",
+        "https://menu4.xyz/v2/common/check_version",
         {
           app_type: "pos",
         }

@@ -78,7 +78,7 @@ function EditSuperOwner() {
       }
 
       const response = await axios.post(
-        "https://ghanish.in/v2/admin/view_super_owner",
+        "https://menu4.xyz/v2/admin/view_super_owner",
         {
           user_id: adminData?.user_id,
           super_owner_id: parseInt(superOwnerId),
@@ -126,7 +126,7 @@ function EditSuperOwner() {
       }
 
       const response = await axios.post(
-        "https://ghanish.in/v2/admin/get_outlets_for_super_owner",
+        "https://menu4.xyz/v2/admin/get_outlets_for_super_owner",
         {
           app_source: "admin_app",
           super_owner_id: parseInt(superOwnerId),
@@ -261,7 +261,7 @@ function EditSuperOwner() {
     try {
       const token = getToken();
       const response = await axios.put(
-        "https://ghanish.in/v2/admin/update_super_owner",
+        "https://menu4.xyz/v2/admin/update_super_owner",
         {
           ...superOwnerDetails,
           super_owner_id: parseInt(superOwnerId),

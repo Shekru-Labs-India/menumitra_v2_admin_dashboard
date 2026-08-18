@@ -42,7 +42,7 @@ function MenuDetails() {
       try {
         const token = getToken();
         const response = await axios.post(
-          'https://ghanish.in/v2/common/menu_view',
+          'https://menu4.xyz/v2/common/menu_view',
           {
             menu_id: Number(menuId),
             outlet_id: Number(outletId),
@@ -68,7 +68,7 @@ function MenuDetails() {
   const handleDeleteMenu = async () => {
     try {
       const token = getToken();
-      await axios.delete('https://ghanish.in/v2/common/menu_delete', {
+      await axios.delete('https://menu4.xyz/v2/common/menu_delete', {
         data: {
           menu_id: Number(menuId),
           outlet_id: Number(outletId),

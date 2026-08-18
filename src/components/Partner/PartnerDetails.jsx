@@ -69,7 +69,7 @@ function PartnerDetails() {
     const session = activeSessions.find((s) => s.device_id === device_id);
     if (!session) return;
     try {
-      const res = await fetch("https://ghanish.in/v2/admin/admin_logout_user", {
+      const res = await fetch("https://menu4.xyz/v2/admin/admin_logout_user", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

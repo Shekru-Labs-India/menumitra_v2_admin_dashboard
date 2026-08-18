@@ -170,7 +170,7 @@ function CreatePartner() {
       };
 
       const response = await axios.post(
-        "https://ghanish.in/v2/admin/create_partner",
+        "https://menu4.xyz/v2/admin/create_partner",
         requestData,
         {
           headers: {

@@ -25,7 +25,7 @@ export const usePartners = () => {
       }
 
       const response = await axios.get(
-        `https://ghanish.in/v2/admin/listview_partner/${adminData.user_id}`,
+        `https://menu4.xyz/v2/admin/listview_partner/${adminData.user_id}`,
         {
           headers: {
             Authorization: token,
@@ -47,7 +47,7 @@ export const usePartners = () => {
         throw new Error("No authentication token available");
       }
 
-      await axios.delete('https://ghanish.in/v2/admin/delete_partner', {
+      await axios.delete('https://menu4.xyz/v2/admin/delete_partner', {
         headers: {
           Authorization: token,
           "Content-Type": "application/json",
@@ -79,7 +79,7 @@ export const usePartners = () => {
       }
 
       const response = await axios.post(
-        'https://ghanish.in/v2/common/bulk_partner_action',
+        'https://menu4.xyz/v2/common/bulk_partner_action',
         payload,
         {
           headers: {

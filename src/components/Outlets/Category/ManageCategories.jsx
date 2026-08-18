@@ -48,7 +48,7 @@ function ManageCategories() {
     queryFn: async () => {
       const token = getToken();
       const response = await axios.post(
-        "https://ghanish.in/v2/common/menu_category_list",
+        "https://menu4.xyz/v2/common/menu_category_list",
         {
           outlet_id: Number(outletId),
           user_id: adminData?.user_id,
@@ -70,7 +70,7 @@ function ManageCategories() {
   const deleteMutation = useMutation({
     mutationFn: async () => {
       const token = getToken();
-      return axios.delete("https://ghanish.in/v2/common/menu_category_delete", {
+      return axios.delete("https://menu4.xyz/v2/common/menu_category_delete", {
         data: {
           menu_cat_id: categoryToDelete.menu_cat_id,
           outlet_id: categoryToDelete.outlet_id,
@@ -106,7 +106,7 @@ function ManageCategories() {
         .map((cat) => cat.menu_cat_id);
 
       return axios.post(
-        "https://ghanish.in/v2/common/bulk_category_action",
+        "https://menu4.xyz/v2/common/bulk_category_action",
         {
           user_id: adminData?.user_id,
           outlet_id: Number(outletId),

@@ -19,7 +19,7 @@ const isMenuMitraDomain = () => {
 };
 
 // Fixed API base URL (production only)
-const getApiBaseUrl = () => "https://ghanish.in";
+const getApiBaseUrl = () => "https://menu4.xyz";
 
 // API Configuration
 export const API_CONFIG = {

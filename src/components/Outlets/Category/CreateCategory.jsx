@@ -35,7 +35,7 @@ function CreateCategory() {
 
     try {
       const response = await axios.post(
-        "https://ghanish.in/v2/common/menu_category_create",
+        "https://menu4.xyz/v2/common/menu_category_create",
         {
           outlet_id: outletId,
           category_name: categoryName,

@@ -26,7 +26,7 @@ export const useSuperOwners = () => {
       if (!token) throw new Error("No authentication token available");
 
       const response = await axios.post(
-        'https://ghanish.in/v2/admin/listview_super_owner',
+        'https://menu4.xyz/v2/admin/listview_super_owner',
         { 
           user_id: adminData.user_id,
           app_source: 'admin_app'
@@ -51,7 +51,7 @@ export const useSuperOwners = () => {
       if (!token) throw new Error("No authentication token available");
 
       await toastController.promise(
-        axios.delete('https://ghanish.in/v2/admin/delete_super_owner', {
+        axios.delete('https://menu4.xyz/v2/admin/delete_super_owner', {
           data: {
             super_owner_id: parseInt(superOwnerId),
             user_id: adminData.user_id,
@@ -77,7 +77,7 @@ export const useSuperOwners = () => {
   const bulkAction = useMutation({
     mutationFn: async (payload) => {
       const response = await axios.post(
-        'https://ghanish.in/v2/common/bulk_super_owner_action',
+        'https://menu4.xyz/v2/common/bulk_super_owner_action',
         payload,
         {
           headers: {

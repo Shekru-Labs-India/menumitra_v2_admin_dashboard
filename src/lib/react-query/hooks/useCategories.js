@@ -11,7 +11,7 @@ export const useCategories = (outletId, userId) => {
     queryFn: async () => {
       const token = localStorage.getItem("token"); // Or use your auth method
       const response = await axios.post(
-        "https://ghanish.in/v2/common/menu_category_list",
+        "https://menu4.xyz/v2/common/menu_category_list",
         {
           outlet_id: Number(outletId),
           user_id: userId,
@@ -33,7 +33,7 @@ export const useCategories = (outletId, userId) => {
   const deleteCategoryMutation = useMutation({
     mutationFn: async ({ categoryId, outletId, userId }) => {
       const token = localStorage.getItem('token');
-      return axios.delete('https://ghanish.in/v2/common/menu_category_delete', {
+      return axios.delete('https://menu4.xyz/v2/common/menu_category_delete', {
         data: {
           menu_cat_id: categoryId,
           outlet_id: outletId,
@@ -59,7 +59,7 @@ export const useCategories = (outletId, userId) => {
     mutationFn: async ({ action, selectedIds, outletId, userId }) => {
       const token = localStorage.getItem("token");
       return axios.post(
-        'https://ghanish.in/v2/common/bulk_category_action',
+        'https://menu4.xyz/v2/common/bulk_category_action',
         {
           user_id: userId,
           outlet_id: Number(outletId),

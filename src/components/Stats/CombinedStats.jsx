@@ -91,7 +91,7 @@ function CombinedStats() {
     const fetchAppSources = async () => {
       try {
         const response = await fetch(
-          "https://ghanish.in/v2/common/get_list/app_source",
+          "https://menu4.xyz/v2/common/get_list/app_source",
           {
             method: "GET",
             headers: {
@@ -131,7 +131,7 @@ function CombinedStats() {
           end_date: formatDateForApi(apiPayload.end_date),
         };
         const response = await fetch(
-          "https://ghanish.in/v2/admin/app_usage_stats",
+          "https://menu4.xyz/v2/admin/app_usage_stats",
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },

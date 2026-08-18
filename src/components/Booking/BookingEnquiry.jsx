@@ -24,7 +24,7 @@ const BookingEnquiry = () => {
       setIsLoading(true);
       const token = getToken();
       // Using public endpoint from user-provided API — no token required, fall back to GET
-      const url = "https://men4u.xyz/v2/website_api/listview_website_booking";
+      const url = "https://menu4.xyz/v2/website_api/listview_website_booking";
       const resp = await axios.get(url, {
         headers: token
           ? { Authorization: token, "Content-Type": "application/json" }

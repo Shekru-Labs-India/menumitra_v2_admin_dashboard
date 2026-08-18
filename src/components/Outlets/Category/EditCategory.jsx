@@ -30,7 +30,7 @@ function EditCategory() {
         setLoading(true);
         try {
           const response = await axios.post(
-            'https://ghanish.in/v2/common/menu_category_view',
+            'https://menu4.xyz/v2/common/menu_category_view',
             {
               menu_cat_id: Number(menuCategoryId),
               outlet_id: Number(outletId),
@@ -62,7 +62,7 @@ function EditCategory() {
 
     try {
       const response = await axios.patch(
-        'https://ghanish.in/v2/common/menu_category_update',
+        'https://menu4.xyz/v2/common/menu_category_update',
         {
           outlet_id: Number(outletId),
           menu_cat_id: Number(menuCategoryId),

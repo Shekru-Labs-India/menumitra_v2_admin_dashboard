@@ -44,7 +44,7 @@ function CategoryDetails() {
       try {
         const token = getToken();
         const response = await axios.post(
-          'https://ghanish.in/v2/common/menu_category_view',
+          'https://menu4.xyz/v2/common/menu_category_view',
           {
             menu_cat_id: Number(menuCategoryId),
             outlet_id: Number(outletId),
@@ -74,7 +74,7 @@ function CategoryDetails() {
   const handleDeleteCategory = async () => {
     try {
       const token = getToken();
-      await axios.delete('https://ghanish.in/v2/common/menu_category_delete', {
+      await axios.delete('https://menu4.xyz/v2/common/menu_category_delete', {
         data: {
           menu_cat_id: Number(menuCategoryId),
           outlet_id: Number(outletId),
